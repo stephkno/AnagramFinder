@@ -62,7 +62,7 @@ def permutations(string):
 	return wordsout
 	
 
-print ("ANAGRAM FINDER V 1.0 COPYLEFT STEPHEN KNOTTS 2016")
+print ("ANAGRAM FINDER V 1.0 BY STEPHEN KNOTTS 2016")
 count = 0
 oldline = ""
 for word in words:
