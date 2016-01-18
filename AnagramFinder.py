@@ -1,13 +1,13 @@
 import os
 import re
 import sys
-os.system("clear")                                                       #clear screen
-dict = open('/usr/share/dict/words', 'r')                                #open file
+os.system("clear")                                                      #clear screen
+dict = open('/usr/share/dict/words', 'r')                               #open file
 words = dict.read().splitlines()                                        #split words into lines
-wordsout = []                                                             #create wordsout array
-def permutations(string):                                                 #define function
-        words = []                                                        #make words array
-        letters = []                                                     #make letters array
+wordsout = []                                                           #create wordsout array
+def permutations(string):                                               #define function
+        words = []                                                      #make words array
+        letters = []                                                    #make letters array
         suffix = []                                                     #make suffix array
         for letter in string:                                           #for each letter in word
                 letters.append(letter)                                  #build string letter by letter
@@ -58,7 +58,7 @@ for word in words:                                                      #each wo
                                 if count % 20000 < 1:                   #if time
                                         print ".",                      #print .
                                 if w != word:                           #if w is not word
-                                        if re.match("^" + w + "$", word): #if found match
-                                                print ("FOUND MATCH! "),  #
-                                                print w                   #end
+                                        if re.match("^" + w + "$", word):#if found match
+                                                print ("FOUND MATCH! "),#
+                                                print w                 #end
 ~                                                                               
