@@ -27,7 +27,7 @@ def permutations(string):                                               #define 
                         for s in suffix:                                #for each letter in suffix
                                 out += s                                #add s to out string
                         wordsout.append(out)                            #append out string to wordsout array
-                        if f < len(suffix)-1:                   #if pointer is less than length of suffix minus one
+                        if f < len(suffix)-1:                           #if pointer is less than length of suffix -1
                                 c = suffix[f]                           #set swap buffer to letter
                                 suffix[f] = suffix[f+1]                 #swap chars
                                 suffix[f+1] = c                         #put swap buffer into letter+1
