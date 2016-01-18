@@ -6,17 +6,6 @@ os.system("clear")
 dict = open('/usr/share/dict/words', 'r')
 words = dict.read().splitlines()
 
-
-class Unbuffered(object):
-   def __init__(self, stream):
-       self.stream = stream
-   def write(self, data):
-       self.stream.write(data)
-       self.stream.flush()
-   def __getattr__(self, attr):
-       return getattr(self.stream, attr)
-
-
 wordsout = []
 def permutations(string):
 
@@ -61,7 +50,8 @@ def permutations(string):
 		
 	return wordsout
 	
-
+unbuffered = os.fdopen(sys.stdout.fileno(), 'w', 0)
+sys.stdout = unbuffered
 print ("ANAGRAM FINDER V 1.0 BY STEPHEN KNOTTS 2016")
 count = 0
 oldline = ""
@@ -78,7 +68,6 @@ for word in words:
 				print("Trying " + line),
 				line = oldline
 			if count % 20000 < 1:
-				sys.stdout = Unbuffered(sys.stdout)
 				print ".",	
 			if w != word:
 
