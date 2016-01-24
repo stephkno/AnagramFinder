@@ -4,7 +4,6 @@ import re
 import subprocess
 import sys
 os.system("clear")
-command = " | grep /usr/share/dict/wordlist"
 dict = open('/usr/share/dict/wordlist', 'r')		
 dictwords = dict.read().splitlines()	 	
 wordsout = []				
