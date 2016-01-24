@@ -80,17 +80,17 @@ for word in dictwords:
 	perms = permutations(str(word))
 	#print perms
 	for perm in perms:
-		for w in open("/usr/share/dict/wordlist").read().split():
-			if w in perm:
-				if len(w) > 1:
+		for word in open("/usr/share/dict/wordlist").read().split():
+			if word in perm:
+				if len(word) > 2:
 					m = True
-					for a in anagrams:
-                        			#print anagrams
-						if w.lower() == a.lower():
+					for anagram in anagrams:
+						#print anagrams
+						if word.lower() == anagram.lower():
 							 m = False
-					if m == True:
-						print w.lower(),
-						anagrams.append(w.lower())
+					if m == True and perm != word:
+						print word.lower(),
+						anagrams.append(word.lower())
 	print
 	#print anagrams
 	anagrams = []
