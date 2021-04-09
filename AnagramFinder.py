@@ -3,93 +3,81 @@ import os
 import re
 import subprocess
 import sys
+from permutations import getPermutations
+from itertools import permutations
+
+file = '/usr/share/dict/words'
 os.system("clear")
-dict = open('/usr/share/dict/wordlist', 'r')		
-dictwords = dict.read().splitlines()	 	
-wordsout = []				
+wordList = open(file, 'r').read()
+wordList = wordList.splitlines()
+wordOut = []
+wordDict = {}
 words = []
-def permutations(string):		 
-	wordsout = []
-	words = []							
-	letters = []		   	 			
-	suffix = []			  		
-	for letter in string:		  	
-		letters.append(letter)    			
-	f = 0 
-	for i, val in enumerate(letters):			
-		suffix = []					
-		prefix = letters[i]				
-		for l, val in enumerate(letters):		
-			if l != i:				
-				suffix.append(letters[l])	
-		a = len(suffix)					
-		b = len(suffix)-1				
-		x = a*b						
-		for z in range(0, x):				
-			out = ""			
-			out += prefix		
-			for s in suffix:			
-				out += s			
-			wordsout.append(out)			
-			if f < len(suffix)-1:			
-				c = suffix[f]			
-				suffix[f] = suffix[f+1]		
-				suffix[f+1] = c			
-				f += 1				
-			if f >= len(suffix)-1:			
-				f = 0	
-		f = 0
-		direction = 1
-		for z in range(0, x):
-			out = ""
-			out += prefix
-			for s in suffix:
-				out += s
-			wordsout.append(out)
-			if direction == 1 and f < len(suffix)-1:	
-				c = suffix[f]
-				suffix[f] = suffix[f+1]
-				suffix[f+1] = c
-				f += direction
-			if direction < 0 and f >= 0:
-				f += direction
-				c = suffix[f]
-				suffix[f] = suffix[f+1]
-				suffix[f+1] = c
-			if f <= 0:
-				direction = 1
-				f += direction
-			if f == len(suffix)-1:
-				direction = -1
-				f+=direction
-			wordsout.append(out)	
-	return wordsout		
-unbuffered = os.fdopen(sys.stdout.fileno(), 'w', 0)		
-sys.stdout = unbuffered		
-print ("Anagrams")	
-count = 0		
-oldline = ""		
-anagrams = []
-#inp = raw_input(">")
-count = 0
-for word in dictwords:
-	print word + ":",
-	#print anagrams, word 
-	perms = []
-	perms = permutations(str(word))
-	#print perms
-	for perm in perms:
-		for word in open("/usr/share/dict/wordlist").read().split():
-			if word in perm:
-				if len(word) > 2:
-					m = True
-					for anagram in anagrams:
-						#print anagrams
-						if word.lower() == anagram.lower():
-							 m = False
-					if m == True and perm != word:
-						print word.lower(),
-						anagrams.append(word.lower())
-	print
-	#print anagrams
-	anagrams = []
+#use built-in vs custom permutation method
+use_itertools = True
+# unbuffered = os.fdopen(sys.stdout.fileno(), 'w', 0)
+# sys.stdout = unbufferd
+wordSet = set(wordList)
+wordFromStdin = False
+
+# if finding anagrams of word from stdin
+if len(sys.argv) > 1:
+	wordList = [sys.argv[1]]
+	wordFromStdin = True
+# performing analysis of all words from dictionary file
+else:
+	print ("Anagram analysis of words from {}".format(file))
+
+anagrams = 0
+word_with_most_anagrams = ""
+longest_word_with_anagram = ""
+most_anagrams = 0
+longest_anagram = 0
+
+# finding permutations of each word in list
+for word in wordList:
+	#reset permutation set
+	permSet = set()
+
+	# display word
+	print(word + ": ",end="")
+
+	# use either built-in or custom permutations
+	#
+	# this operation takes the most time
+	# O(n!) possibly?
+	#
+	if use_itertools:
+		permList = set(permutations(str(word)))
+	else:
+		permList = set(getPermutations(str(word)))
+
+	# adding every permutation to permutation set
+	permSet = set(["".join(perm) for perm in permList])
+	# find all permutations that are in word dictionary
+	anagrams = list(wordSet.intersection(permSet))
+
+	# update statistics
+	if(len(anagrams)>0):
+		# finding longest word with anagrams
+		if len(word) > longest_anagram:
+			longest_word_with_anagram = word
+		longest_anagram = max(len(word), longest_anagram)
+
+		# finding word with most anagrams
+		if len(word) > most_anagrams:
+			word_with_most_anagrams = word
+		most_anagrams = max(len(anagrams), most_anagrams)
+
+		# print anagrams
+		for word in anagrams:
+			print(word, end=" ")
+			# check
+		print()
+
+	# print perms
+if anagrams == 0:
+	print("None.")
+if not wordFromStdin:
+	print("Longest word with anagrams: {} ({}) letters".format(longest_word_with_anagram, longest_anagram))
+	print("Word with most anagrams: {} ({}) anagrams".format(word_with_most_anagrams, most_anagrams))
