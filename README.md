@@ -1,7 +1,6 @@
 # AnagramFinder
 Anagram Finder for Python.
 
-Usage:
 
 python3 AnagramFinder.py [word]
 
