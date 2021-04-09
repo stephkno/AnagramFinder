@@ -4,6 +4,7 @@ Anagram Finder for Python.
 Usage:
 
 python3 AnagramFinder.py [word]
+
 python3 AnagramFinder.py
 
 If no word supplied, every word from wordlist is analyzed.
